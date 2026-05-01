@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ristorante L'Olivo — Castagneto Carducci</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #f5f0e8;
+    --ivory: #faf7f2;
+    --olive: #5a6b3a;
+    --olive-dark: #3d4a27;
+    --olive-light: #8a9b5e;
+    --terracotta: #b8643a;
+    --gold: #c9a84c;
+    --charcoal: #2a2a24;
+    --text-soft: #6b6557;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--ivory);
+    color: var(--charcoal);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.4rem 4rem;
+    background: rgba(245,240,232,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(90,107,58,0.12);
+    transition: box-shadow .3s;
+  }
+  nav.scrolled { box-shadow: 0 2px 30px rgba(0,0,0,0.08); }
+
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-weight: 600; letter-spacing: .04em;
+    color: var(--olive-dark); text-decoration: none;
+  }
+  .nav-logo span { color: var(--terracotta); font-style: italic; }
+
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: .78rem; font-weight: 300; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--charcoal);
+    text-decoration: none; position: relative;
+    transition: color .3s;
+  }
+  .nav-links a::after {
+    content: ''; position: absolute; bottom: -3px; left: 0; right: 100%;
+    height: 1px; background: var(--olive);
+    transition: right .3s ease;
+  }
+  .nav-links a:hover { color: var(--olive); }
+  .nav-links a:hover::after { right: 0; }
+
+  .nav-cta {
+    font-size: .76rem; font-weight: 300; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--ivory);
+    background: var(--olive); border: none; cursor: pointer;
+    padding: .65rem 1.6rem; text-decoration: none;
+    transition: background .3s;
+  }
+  .nav-cta:hover { background: var(--olive-dark); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid; grid-template-columns: 1fr 1fr;
+    padding-top: 72px;
+  }
+
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 6rem 5rem 6rem 8rem;
+    position: relative;
+  }
+  .hero-left::before {
+    content: '';
+    position: absolute; top: 0; right: 0; bottom: 0; width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--olive-light), transparent);
+  }
+
+  .hero-eyebrow {
+    font-size: .72rem; font-weight: 300; letter-spacing: .28em;
+    text-transform: uppercase; color: var(--olive);
+    margin-bottom: 1.5rem;
+    opacity: 0; animation: fadeUp .8s .2s forwards;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 5.5vw, 5.5rem);
+    font-weight: 300; line-height: 1.05;
+    color: var(--charcoal);
+    opacity: 0; animation: fadeUp .8s .4s forwards;
+  }
+  .hero-title em {
+    font-style: italic; color: var(--olive);
+    display: block;
+  }
+
+  .hero-divider {
+    width: 60px; height: 1px;
+    background: var(--gold);
+    margin: 2.5rem 0;
+    opacity: 0; animation: fadeUp .8s .6s forwards;
+  }
+
+  .hero-desc {
+    font-size: 1rem; font-weight: 200; line-height: 1.9;
+    color: var(--text-soft); max-width: 420px;
+    opacity: 0; animation: fadeUp .8s .7s forwards;
+  }
+
+  .hero-badges {
+    display: flex; gap: 2rem; margin-top: 2.5rem;
+    opacity: 0; animation: fadeUp .8s .85s forwards;
+  }
+  .badge {
+    display: flex; flex-direction: column;
+    align-items: center; gap: .3rem;
+  }
+  .badge-val {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2rem; font-weight: 400; color: var(--olive);
+  }
+  .badge-label {
+    font-size: .65rem; font-weight: 300; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--text-soft);
+  }
+
+  .hero-actions {
+    display: flex; gap: 1rem; margin-top: 3rem;
+    opacity: 0; animation: fadeUp .8s 1s forwards;
+  }
+  .btn-primary {
+    font-size: .76rem; font-weight: 300; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--ivory);
+    background: var(--olive); border: none; cursor: pointer;
+    padding: .9rem 2.2rem; text-decoration: none;
+    transition: background .3s;
+  }
+  .btn-primary:hover { background: var(--olive-dark); }
+  .btn-outline {
+    font-size: .76rem; font-weight: 300; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--olive);
+    border: 1px solid var(--olive); cursor: pointer;
+    padding: .9rem 2.2rem; text-decoration: none;
+    transition: all .3s; background: transparent;
+  }
+  .btn-outline:hover { background: var(--olive); color: var(--ivory); }
+
+  .hero-right {
+    position: relative; overflow: hidden;
+    opacity: 0; animation: fadeIn 1.2s .3s forwards;
+  }
+
+  /* Illustrated botanical background for hero */
+  .hero-img-wrap {
+    width: 100%; height: 100%;
+    background:
+      radial-gradient(ellipse at 30% 40%, rgba(90,107,58,0.18) 0%, transparent 55%),
+      radial-gradient(ellipse at 75% 70%, rgba(201,168,76,0.12) 0%, transparent 45%),
+      linear-gradient(160deg, #c8d4a8 0%, #8a9b5e 40%, #5a6b3a 100%);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .hero-img-wrap::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 20%, rgba(255,255,255,.12) 2px, transparent 2px),
+      radial-gradient(circle at 80% 80%, rgba(255,255,255,.08) 3px, transparent 3px),
+      radial-gradient(circle at 60% 30%, rgba(255,255,255,.06) 1px, transparent 1px);
+  }
+
+  .hero-illustration {
+    width: 70%; max-width: 340px;
+    opacity: .9;
+  }
+
+  .hero-tag {
+    position: absolute; bottom: 3rem; left: 3rem;
+    background: rgba(245,240,232,0.95);
+    padding: 1.2rem 1.8rem;
+    border-left: 3px solid var(--gold);
+  }
+  .hero-tag-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem; font-weight: 600; color: var(--charcoal);
+  }
+  .hero-tag-sub {
+    font-size: .7rem; font-weight: 300; letter-spacing: .16em;
+    text-transform: uppercase; color: var(--text-soft);
+    margin-top: .3rem;
+  }
+
+  /* ── STRIP ── */
+  .strip {
+    background: var(--olive-dark); color: var(--cream);
+    display: flex; align-items: center; justify-content: center;
+    gap: 4rem; padding: 1.2rem 4rem;
+    flex-wrap: wrap;
+  }
+  .strip-item {
+    display: flex; align-items: center; gap: .8rem;
+    font-size: .72rem; font-weight: 300; letter-spacing: .2em;
+    text-transform: uppercase;
+  }
+  .strip-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--gold);
+  }
+
+  /* ── SECTION COMMONS ── */
+  section { padding: 8rem 8rem; }
+
+  .section-eyebrow {
+    font-size: .7rem; font-weight: 300; letter-spacing: .28em;
+    text-transform: uppercase; color: var(--olive);
+    margin-bottom: 1.2rem;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.4rem, 3.5vw, 3.8rem);
+    font-weight: 300; line-height: 1.15;
+    color: var(--charcoal);
+  }
+  .section-title em { font-style: italic; color: var(--olive); }
+  .section-line {
+    width: 50px; height: 1px; background: var(--gold); margin: 2rem 0;
+  }
+
+  /* ── ABOUT ── */
+  .about { background: var(--cream); }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 8rem; align-items: center;
+  }
+  .about-text p {
+    font-size: .98rem; font-weight: 200; line-height: 2;
+    color: var(--text-soft); margin-bottom: 1.5rem;
+  }
+
+  .about-visual {
+    position: relative;
+  }
+  .about-card {
+    background: var(--ivory);
+    border: 1px solid rgba(90,107,58,0.15);
+    padding: 3rem;
+    position: relative;
+  }
+  .about-card::before {
+    content: '';
+    position: absolute; top: -12px; left: -12px;
+    right: 12px; bottom: 12px;
+    border: 1px solid var(--olive-light);
+    pointer-events: none;
+  }
+  .about-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 300; font-style: italic;
+    line-height: 1.5; color: var(--charcoal);
+    margin-bottom: 1.5rem;
+  }
+  .about-quote-mark {
+    font-size: 4rem; line-height: 1; color: var(--gold);
+    font-family: 'Cormorant Garamond', serif;
+    margin-bottom: -1rem; display: block;
+  }
+  .about-author {
+    font-size: .7rem; font-weight: 300; letter-spacing: .22em;
+    text-transform: uppercase; color: var(--text-soft);
+  }
+
+  .about-features {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2.5rem;
+  }
+  .feat {
+    display: flex; gap: 1rem; align-items: flex-start;
+  }
+  .feat-icon {
+    width: 36px; height: 36px; flex-shrink: 0;
+    background: var(--olive); display: flex; align-items: center; justify-content: center;
+    color: var(--ivory); font-size: .9rem;
+  }
+  .feat-label {
+    font-size: .8rem; font-weight: 400; color: var(--charcoal);
+    margin-bottom: .2rem;
+  }
+  .feat-sub {
+    font-size: .72rem; font-weight: 200; color: var(--text-soft); line-height: 1.5;
+  }
+
+  /* ── MENU ── */
+  .menu-section { background: var(--ivory); }
+  .menu-header { text-align: center; margin-bottom: 5rem; }
+  .menu-header .section-line { margin: 2rem auto; }
+
+  .menu-categories {
+    display: flex; justify-content: center; gap: 0;
+    margin-bottom: 4rem; border: 1px solid rgba(90,107,58,0.2);
+    width: fit-content; margin-left: auto; margin-right: auto;
+    overflow: hidden;
+  }
+  .menu-cat {
+    font-size: .72rem; font-weight: 300; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--charcoal);
+    padding: .8rem 2rem; cursor: pointer;
+    border-right: 1px solid rgba(90,107,58,0.2);
+    background: transparent; border-top: none; border-bottom: none; border-left: none;
+    transition: all .3s; font-family: 'Jost', sans-serif;
+  }
+  .menu-cat:last-child { border-right: none; }
+  .menu-cat.active, .menu-cat:hover {
+    background: var(--olive); color: var(--ivory);
+  }
+
+  .menu-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    border: 1px solid rgba(90,107,58,0.12);
+  }
+  .menu-item {
+    padding: 2.2rem 2.5rem;
+    border-bottom: 1px solid rgba(90,107,58,0.1);
+    border-right: 1px solid rgba(90,107,58,0.1);
+    transition: background .3s;
+    position: relative; overflow: hidden;
+  }
+  .menu-item:hover { background: rgba(90,107,58,0.04); }
+  .menu-item:nth-child(even) { border-right: none; }
+  .menu-item::before {
+    content: '';
+    position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+    height: 0; width: 3px; background: var(--gold);
+    transition: height .3s;
+  }
+  .menu-item:hover::before { height: 40%; }
+
+  .menu-item-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem; font-weight: 400; color: var(--charcoal);
+    margin-bottom: .5rem;
+  }
+  .menu-item-desc {
+    font-size: .8rem; font-weight: 200; line-height: 1.7; color: var(--text-soft);
+  }
+  .menu-item-tag {
+    display: inline-block; margin-top: .8rem;
+    font-size: .62rem; font-weight: 300; letter-spacing: .18em;
+    text-transform: uppercase; color: var(--olive);
+    border: 1px solid var(--olive-light);
+    padding: .2rem .6rem;
+  }
+
+  /* ── REVIEWS ── */
+  .reviews { background: var(--olive-dark); color: var(--cream); }
+  .reviews .section-eyebrow { color: var(--gold); }
+  .reviews .section-title { color: var(--cream); }
+  .reviews .section-line { background: var(--gold); }
+
+  .reviews-header { margin-bottom: 5rem; }
+
+  .rating-big {
+    display: flex; align-items: baseline; gap: 1rem; margin-top: 2rem;
+  }
+  .rating-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 5rem; font-weight: 300; color: var(--gold); line-height: 1;
+  }
+  .rating-info { display: flex; flex-direction: column; }
+  .stars { color: var(--gold); font-size: 1.1rem; letter-spacing: .1em; }
+  .rating-sub {
+    font-size: .7rem; font-weight: 300; letter-spacing: .18em;
+    text-transform: uppercase; color: rgba(245,240,232,0.5);
+    margin-top: .4rem;
+  }
+
+  .reviews-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+    margin-top: 4rem;
+  }
+  .review-card {
+    background: rgba(255,255,255,0.05);
+    padding: 2.5rem; border: 1px solid rgba(255,255,255,0.06);
+    transition: background .3s;
+  }
+  .review-card:hover { background: rgba(255,255,255,0.09); }
+  .review-stars { color: var(--gold); font-size: .9rem; margin-bottom: 1.2rem; }
+  .review-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-weight: 300; font-style: italic;
+    line-height: 1.7; color: var(--cream); margin-bottom: 1.5rem;
+  }
+  .review-author {
+    font-size: .68rem; font-weight: 300; letter-spacing: .18em;
+    text-transform: uppercase; color: rgba(245,240,232,0.45);
+  }
+
+  /* ── INFO ── */
+  .info { background: var(--cream); }
+  .info-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start;
+  }
+
+  .info-block { margin-bottom: 3rem; }
+  .info-block-title {
+    font-size: .68rem; font-weight: 300; letter-spacing: .24em;
+    text-transform: uppercase; color: var(--olive);
+    margin-bottom: 1.2rem; padding-bottom: .8rem;
+    border-bottom: 1px solid rgba(90,107,58,0.2);
+  }
+  .info-row {
+    display: flex; justify-content: space-between;
+    padding: .6rem 0;
+    border-bottom: 1px solid rgba(90,107,58,0.08);
+    font-size: .88rem; font-weight: 200; color: var(--charcoal);
+  }
+  .info-row span:first-child { color: var(--text-soft); }
+
+  .info-address {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; font-weight: 300; line-height: 1.7;
+    color: var(--charcoal); margin-top: .5rem;
+  }
+
+  .map-placeholder {
+    width: 100%; height: 340px;
+    background: linear-gradient(135deg, #c8d4a8 0%, #8a9b5e 100%);
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .map-placeholder::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(0deg, rgba(255,255,255,.04) 0, rgba(255,255,255,.04) 1px, transparent 1px, transparent 40px),
+      repeating-linear-gradient(90deg, rgba(255,255,255,.04) 0, rgba(255,255,255,.04) 1px, transparent 1px, transparent 40px);
+  }
+  .map-pin-wrap {
+    text-align: center; z-index: 1;
+  }
+  .map-pin {
+    display: inline-flex; flex-direction: column; align-items: center;
+  }
+  .map-pin-icon {
+    width: 48px; height: 48px; background: var(--terracotta);
+    border-radius: 50% 50% 50% 0; transform: rotate(-45deg);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 24px rgba(0,0,0,.25);
+    margin-bottom: .6rem;
+  }
+  .map-pin-icon span { transform: rotate(45deg); font-size: 1.2rem; }
+  .map-pin-label {
+    background: var(--ivory); padding: .5rem 1rem;
+    font-size: .75rem; font-weight: 300; letter-spacing: .1em;
+    color: var(--charcoal); box-shadow: 0 4px 16px rgba(0,0,0,.15);
+    white-space: nowrap;
+  }
+
+  /* ── BOOKING ── */
+  .booking {
+    background: var(--olive);
+    text-align: center; padding: 7rem 8rem;
+    position: relative; overflow: hidden;
+  }
+  .booking::before {
+    content: '';
+    position: absolute; top: -60%; left: 50%; transform: translateX(-50%);
+    width: 800px; height: 800px; border-radius: 50%;
+    background: rgba(255,255,255,.04);
+    pointer-events: none;
+  }
+  .booking .section-eyebrow { color: var(--gold); }
+  .booking .section-title { color: var(--cream); }
+  .booking .section-title em { color: var(--gold); }
+  .booking .section-line { background: var(--gold); margin: 2rem auto; }
+  .booking-desc {
+    font-size: .98rem; font-weight: 200; line-height: 1.9;
+    color: rgba(245,240,232,0.7); max-width: 520px; margin: 0 auto 3rem;
+  }
+  .btn-gold {
+    font-size: .78rem; font-weight: 300; letter-spacing: .2em;
+    text-transform: uppercase; color: var(--charcoal);
+    background: var(--gold); border: none; cursor: pointer;
+    padding: 1rem 3rem; text-decoration: none;
+    transition: all .3s; display: inline-block;
+  }
+  .btn-gold:hover {
+    background: var(--cream); transform: translateY(-2px);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--charcoal); color: rgba(245,240,232,0.5);
+    padding: 3rem 8rem; font-size: .72rem; font-weight: 200;
+    letter-spacing: .1em; display: flex;
+    justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
+  }
+  footer a { color: rgba(245,240,232,0.5); text-decoration: none; }
+  footer a:hover { color: var(--gold); }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-weight: 400; color: var(--cream);
+  }
+  .footer-logo em { font-style: italic; color: var(--gold); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; } to { opacity: 1; }
+  }
+
+  /* ── SCROLL REVEAL ── */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── MOBILE ── */
+  @media (max-width: 900px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { padding: 4rem 2rem 3rem; }
+    .hero-right { height: 300px; }
+    section { padding: 5rem 2rem; }
+    .about-grid, .info-grid, .reviews-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .menu-grid { grid-template-columns: 1fr; }
+    .menu-item:nth-child(even) { border-right: 1px solid rgba(90,107,58,0.1); }
+    footer { padding: 2rem; flex-direction: column; text-align: center; }
+    .booking { padding: 5rem 2rem; }
+    .strip { gap: 1.5rem; padding: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">L'<span>Olivo</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">Chi siamo</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#recensioni">Recensioni</a></li>
+    <li><a href="#info">Informazioni</a></li>
+  </ul>
+  <a class="nav-cta" href="https://www.thefork.it" target="_blank">Prenota</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Castagneto Carducci · Toscana</p>
+    <h1 class="hero-title">
+      Sapori della <em>Maremma</em>
+    </h1>
+    <div class="hero-divider"></div>
+    <p class="hero-desc">
+      Nel cuore della Toscana più autentica, tra ulivi centenari e la brezza del Tirreno, 
+      L'Olivo celebra la cucina del territorio con ingredienti a chilometro zero e 
+      ricette che raccontano la storia di questa terra straordinaria.
+    </p>
+    <div class="hero-badges">
+      <div class="badge">
+        <span class="badge-val">4,4</span>
+        <span class="badge-label">Valutazione</span>
+      </div>
+      <div class="badge">
+        <span class="badge-val">87</span>
+        <span class="badge-label">Recensioni</span>
+      </div>
+      <div class="badge">
+        <span class="badge-val">km 0</span>
+        <span class="badge-label">Ingredienti</span>
+      </div>
+    </div>
+    <div class="hero-actions">
+      <a class="btn-primary" href="https://www.thefork.it" target="_blank">Prenota un tavolo</a>
+      <a class="btn-outline" href="#menu">Scopri il menu</a>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-img-wrap">
+      <!-- Botanical SVG illustration -->
+      <svg class="hero-illustration" viewBox="0 0 300 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Olive branch -->
+        <path d="M150 320 Q145 280 130 240 Q120 210 110 180 Q100 150 115 120" stroke="rgba(255,255,255,0.5)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+        <path d="M150 320 Q155 280 165 240 Q175 210 185 180 Q195 150 180 120" stroke="rgba(255,255,255,0.4)" stroke-width="2" fill="none" stroke-linecap="round"/>
+        <!-- Center stem -->
+        <path d="M150 330 Q148 250 152 160 Q150 100 148 60" stroke="rgba(255,255,255,0.65)" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <!-- Leaves left -->
+        <ellipse cx="118" cy="198" rx="22" ry="10" fill="rgba(255,255,255,0.22)" transform="rotate(-35 118 198)"/>
+        <ellipse cx="108" cy="165" rx="20" ry="9" fill="rgba(255,255,255,0.18)" transform="rotate(-40 108 165)"/>
+        <ellipse cx="122" cy="235" rx="18" ry="8" fill="rgba(255,255,255,0.16)" transform="rotate(-30 122 235)"/>
+        <ellipse cx="100" cy="135" rx="17" ry="8" fill="rgba(255,255,255,0.14)" transform="rotate(-45 100 135)"/>
+        <!-- Leaves right -->
+        <ellipse cx="182" cy="192" rx="22" ry="10" fill="rgba(255,255,255,0.2)" transform="rotate(35 182 192)"/>
+        <ellipse cx="190" cy="158" rx="20" ry="9" fill="rgba(255,255,255,0.16)" transform="rotate(42 190 158)"/>
+        <ellipse cx="175" cy="228" rx="18" ry="8" fill="rgba(255,255,255,0.14)" transform="rotate(32 175 228)"/>
+        <ellipse cx="192" cy="128" rx="16" ry="8" fill="rgba(255,255,255,0.12)" transform="rotate(48 192 128)"/>
+        <!-- Olives -->
+        <ellipse cx="113" cy="204" rx="5" ry="7" fill="rgba(61,74,39,0.6)"/>
+        <ellipse cx="188" cy="198" rx="5" ry="7" fill="rgba(61,74,39,0.55)"/>
+        <ellipse cx="106" cy="170" rx="4" ry="6" fill="rgba(61,74,39,0.5)"/>
+        <ellipse cx="193" cy="165" rx="4" ry="6" fill="rgba(61,74,39,0.45)"/>
+        <ellipse cx="119" cy="241" rx="4" ry="5" fill="rgba(61,74,39,0.4)"/>
+        <!-- Crown foliage -->
+        <ellipse cx="150" cy="80" rx="42" ry="28" fill="rgba(255,255,255,0.12)"/>
+        <ellipse cx="130" cy="65" rx="28" ry="18" fill="rgba(255,255,255,0.1)"/>
+        <ellipse cx="170" cy="68" rx="26" ry="17" fill="rgba(255,255,255,0.09)"/>
+        <!-- Decorative circle -->
+        <circle cx="150" cy="180" r="118" stroke="rgba(255,255,255,0.08)" stroke-width="1" stroke-dasharray="4 6"/>
+        <circle cx="150" cy="180" r="138" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+      </svg>
+      <div class="hero-tag">
+        <div class="hero-tag-name">Campastrello Sport Hotel</div>
+        <div class="hero-tag-sub">Via Campastrello, 1 · Castagneto Carducci</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STRIP -->
+<div class="strip">
+  <div class="strip-item"><div class="strip-dot"></div>Cucina Toscana</div>
+  <div class="strip-item"><div class="strip-dot"></div>Ingredienti a km Zero</div>
+  <div class="strip-item"><div class="strip-dot"></div>Lunedì – Domenica</div>
+  <div class="strip-item"><div class="strip-dot"></div>30–40€ a persona</div>
+  <div class="strip-item"><div class="strip-dot"></div>Spazio esterno</div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p class="section-eyebrow">La nostra storia</p>
+      <h2 class="section-title">Dove la <em>natura</em> incontra la tavola</h2>
+      <div class="section-line"></div>
+      <p>
+        Situato all'interno del Campastrello Sport Hotel & Residence, il Ristorante L'Olivo si trova 
+        in un angolo privilegiato della Maremma Toscana, immerso in uno dei parchi botanici 
+        più belli d'Italia, tra ulivi, profumi di macchia mediterranea e tramonti mozzafiato.
+      </p>
+      <p>
+        La nostra filosofia è semplice e radicata: portare in tavola il meglio del territorio. 
+        Dal coniglio all'Aleatico alle pappardelle al cinghiale, ogni piatto nasce da ingredienti 
+        selezionati con cura, spesso provenienti dalle campagne circostanti.
+      </p>
+      <div class="about-features">
+        <div class="feat">
+          <div class="feat-icon">🌿</div>
+          <div>
+            <div class="feat-label">Km Zero</div>
+            <div class="feat-sub">Ingredienti locali e stagionali</div>
+          </div>
+        </div>
+        <div class="feat">
+          <div class="feat-icon">🍷</div>
+          <div>
+            <div class="feat-label">Vini locali</div>
+            <div class="feat-sub">Etichette della Bolgheri DOC</div>
+          </div>
+        </div>
+        <div class="feat">
+          <div class="feat-icon">🌳</div>
+          <div>
+            <div class="feat-label">Spazio esterno</div>
+            <div class="feat-sub">Adatto a eventi e celebrazioni</div>
+          </div>
+        </div>
+        <div class="feat">
+          <div class="feat-icon">👨‍🍳</div>
+          <div>
+            <div class="feat-label">Tradizione</div>
+            <div class="feat-sub">Ricette del territorio e campane</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="about-visual reveal">
+      <div class="about-card">
+        <span class="about-quote-mark">"</span>
+        <p class="about-quote">
+          Un luogo incantevole in mezzo ad un parco botanico tra i più belli d'Italia. 
+          Cibo di qualità e servito con gusto. Un gioiellino toscano.
+        </p>
+        <p class="about-author">— Chiara Monzani, Local Guide</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section class="menu-section" id="menu">
+  <div class="menu-header reveal">
+    <p class="section-eyebrow">La cucina</p>
+    <h2 class="section-title">Il nostro <em>Menu</em></h2>
+    <div class="section-line"></div>
+  </div>
+  <div class="menu-categories reveal">
+    <button class="menu-cat active" onclick="filterMenu('tutti')">Tutti</button>
+    <button class="menu-cat" onclick="filterMenu('antipasti')">Antipasti</button>
+    <button class="menu-cat" onclick="filterMenu('primi')">Primi</button>
+    <button class="menu-cat" onclick="filterMenu('secondi')">Secondi</button>
+    <button class="menu-cat" onclick="filterMenu('vini')">Vini</button>
+  </div>
+  <div class="menu-grid" id="menuGrid">
+    <div class="menu-item" data-cat="antipasti">
+      <div class="menu-item-name">Carciofi freschi con guanciale croccante</div>
+      <div class="menu-item-desc">Carciofi di stagione appena colti, accompagnati da guanciale toscano reso croccante in padella, con un filo d'olio extravergine.</div>
+      <span class="menu-item-tag">Antipasto · Stagionale</span>
+    </div>
+    <div class="menu-item" data-cat="antipasti">
+      <div class="menu-item-name">Crostini e fiori di zucca fritti</div>
+      <div class="menu-item-desc">Benvenuto dalla cucina: crostini toscani e fiori di zucca in pastella leggera, fritti al momento. Freschi e delicati.</div>
+      <span class="menu-item-tag">Antipasto · Firma</span>
+    </div>
+    <div class="menu-item" data-cat="primi">
+      <div class="menu-item-name">Pinci con salsiccia e coste</div>
+      <div class="menu-item-desc">La pasta fresca tipica della Maremma, lavorata a mano, condita con salsiccia di maiale locale e coste di campo saltate in padella.</div>
+      <span class="menu-item-tag">Primo · Tradizione</span>
+    </div>
+    <div class="menu-item" data-cat="primi">
+      <div class="menu-item-name">Tagliatelle al ragù di agnello e carciofi</div>
+      <div class="menu-item-desc">Tagliatelle all'uovo tirate sottili, con ragù lento di agnello allevato nelle campagne maremmane e carciofi brasati.</div>
+      <span class="menu-item-tag">Primo · Stagionale</span>
+    </div>
+    <div class="menu-item" data-cat="primi">
+      <div class="menu-item-name">Pappardelle al cinghiale</div>
+      <div class="menu-item-desc">Pappardelle rustiche con ragù di cinghiale della Maremma, cotto lentamente con vino rosso locale e aromi del bosco.</div>
+      <span class="menu-item-tag">Primo · Selvaggina</span>
+    </div>
+    <div class="menu-item" data-cat="secondi">
+      <div class="menu-item-name">Coniglio disossato all'Aleatico</div>
+      <div class="menu-item-desc">Coniglio allevato in libertà, disossato e cotto lentamente nell'Aleatico di Portoferraio, vino passito dell'isola d'Elba. Un secondo dalla profondità unica.</div>
+      <span class="menu-item-tag">Secondo · Specialità</span>
+    </div>
+    <div class="menu-item" data-cat="vini">
+      <div class="menu-item-name">Vino Campastrello</div>
+      <div class="menu-item-desc">La nostra etichetta, prodotta da uve del territorio di Castagneto Carducci, patria del Bolgheri DOC. Rosso strutturato e profumato.</div>
+      <span class="menu-item-tag">Vino · Etichetta propria</span>
+    </div>
+    <div class="menu-item" data-cat="secondi">
+      <div class="menu-item-name">Ravioli e agnello — Secondo della tradizione</div>
+      <div class="menu-item-desc">Selezione del giorno secondo disponibilità, con i migliori ingredienti della stagione. Chiedere al personale per la proposta del momento.</div>
+      <span class="menu-item-tag">Secondo · Del giorno</span>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="recensioni">
+  <div class="reviews-header reveal">
+    <p class="section-eyebrow">Cosa dicono gli ospiti</p>
+    <h2 class="section-title">Recensioni</h2>
+    <div class="section-line"></div>
+    <div class="rating-big">
+      <span class="rating-num">4,4</span>
+      <div class="rating-info">
+        <span class="stars">★★★★☆</span>
+        <span class="rating-sub">87 recensioni su Google Maps</span>
+      </div>
+    </div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Un luogo incantevole in mezzo ad un parco botanico tra i più belli d'Italia! Cibo di qualità e servito con gusto. Il personale accogliente — un gioiellino toscano che consiglio assolutamente.</p>
+      <p class="review-author">Chiara Monzani · Local Guide</p>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Location fantastica per chi ama la natura. Cibo genuino a km zero, servizio attento e cortese, buon rapporto qualità/prezzo. L'Olivo è un ristorante sicuramente da consigliare.</p>
+      <p class="review-author">Graziella Menichini · Local Guide</p>
+    </div>
+    <div class="review-card reveal">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">Ottima cucina con prodotti a km 0, menù con piatti caratteristici del territorio. Tutto ottimo dalla cucina al servizio, impeccabile. Grazie mille e torniamo a trovarvi presto.</p>
+      <p class="review-author">Davide Merolla · Local Guide</p>
+    </div>
+  </div>
+</section>
+
+<!-- INFO -->
+<section class="info" id="info">
+  <div class="info-grid">
+    <div class="reveal">
+      <p class="section-eyebrow">Dove siamo</p>
+      <h2 class="section-title">Vieni a <em>trovarci</em></h2>
+      <div class="section-line"></div>
+      <p class="info-address">
+        Via Campastrello, 1<br>
+        57022 Castagneto Carducci (LI)<br>
+        Toscana, Italia
+      </p>
+      <div style="margin-top: 2.5rem;">
+        <div class="info-block">
+          <div class="info-block-title">Orari di apertura</div>
+          <div class="info-row"><span>Lunedì – Venerdì</span><span>12:30 – 14:30 / 19:30 – 22:00</span></div>
+          <div class="info-row"><span>Sabato – Domenica</span><span>12:30 – 15:00 / 19:30 – 22:30</span></div>
+        </div>
+        <div class="info-block">
+          <div class="info-block-title">Servizi</div>
+          <div class="info-row"><span>Consumazione sul posto</span><span>✓</span></div>
+          <div class="info-row"><span>Consegna a domicilio</span><span>✓</span></div>
+          <div class="info-row"><span>Spazio esterno</span><span>✓</span></div>
+          <div class="info-row"><span>Adatto a eventi</span><span>✓</span></div>
+          <div class="info-row"><span>Prezzo medio</span><span>30 – 40 € p.p.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal">
+      <div class="map-placeholder">
+        <div class="map-pin-wrap">
+          <div class="map-pin">
+            <div class="map-pin-icon"><span>🍽</span></div>
+            <div class="map-pin-label">Ristorante L'Olivo</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 1.5rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+        <a href="https://maps.google.com/?q=Via+Campastrello+1+Castagneto+Carducci" target="_blank" class="btn-outline" style="display:inline-block; font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; color:var(--olive); border:1px solid var(--olive); padding:.8rem 1.5rem; text-decoration:none; transition:all .3s;">
+          Apri su Google Maps
+        </a>
+        <a href="https://www.thefork.it" target="_blank" class="btn-primary" style="display:inline-block; font-size:.72rem; letter-spacing:.18em; text-transform:uppercase; color:var(--ivory); background:var(--olive); padding:.8rem 1.5rem; text-decoration:none;">
+          Prenota su TheFork
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING CTA -->
+<section class="booking">
+  <p class="section-eyebrow">Riservate la vostra serata</p>
+  <h2 class="section-title">Prenota il tuo <em>tavolo</em></h2>
+  <div class="section-line"></div>
+  <p class="booking-desc">
+    Lasciatevi conquistare dai sapori autentici della Maremma. 
+    Che sia una cena romantica, un pranzo in famiglia o un evento speciale, 
+    vi aspettiamo con tutto il calore dell'ospitalità toscana.
+  </p>
+  <a class="btn-gold" href="https://www.thefork.it" target="_blank">Prenota ora su TheFork</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">L'<em>Olivo</em></div>
+  <div>Via Campastrello, 1 · 57022 Castagneto Carducci (LI)</div>
+  <div>
+    <a href="https://www.thefork.it" target="_blank">Prenota su TheFork</a>
+    &nbsp;·&nbsp;
+    <a href="https://maps.google.com/?q=Via+Campastrello+1+Castagneto+Carducci" target="_blank">Google Maps</a>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Menu filter
+  function filterMenu(cat) {
+    document.querySelectorAll('.menu-cat').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+    document.querySelectorAll('.menu-item').forEach(item => {
+      if (cat === 'tutti' || item.dataset.cat === cat) {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  }
+</script>
+</body>
+</html>
